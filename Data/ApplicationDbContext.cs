@@ -13,6 +13,7 @@ namespace Vigant.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Interest> Interests { get; set; }
         public DbSet<Link> Links { get; set; }
+        public new DbSet<ApplicationUser> Users { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
