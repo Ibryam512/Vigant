@@ -13,11 +13,10 @@ namespace Vigant.Services
     public class UserService : IUserService
     {
         private ApplicationDbContext _context;
-        private UserManager<ApplicationUser> _userManager;
 
         public UserService(ApplicationDbContext context)
         {
-            this._context = context;
+            this._context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public Task<ApplicationUser> FindUser(string userName) => this._context.Users.SingleAsync(x => x.UserName == userName);

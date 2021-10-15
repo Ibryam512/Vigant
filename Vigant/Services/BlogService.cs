@@ -15,23 +15,23 @@ namespace Vigant.Services
 
         public BlogService(ApplicationDbContext context)
         {
-            this._context = context;
+            this._context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public Task<List<Blog>> GetBlogs() => this._context.Blogs.ToListAsync();
 
         public Task<Blog> GetBlog(string blogId) => this._context.Blogs.SingleAsync(x => x.Id == blogId);
 
-        public void AddBlog(Blog blog)
+        public async Task AddBlog(Blog blog)
         {
             this._context.Blogs.Add(blog);
-            this._context.SaveChangesAsync();
+            await this._context.SaveChangesAsync();
         }
 
-        public void AddComment(string blogId, Comment comment)
+        public async Task AddComment(string blogId, Comment comment)
         {
             this._context.Blogs.Single(x => x.Id == blogId).Comments.Add(comment);
-            this._context.SaveChanges();
+            await this._context.SaveChangesAsync();
         }
     }
 }

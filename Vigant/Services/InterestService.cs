@@ -16,25 +16,25 @@ namespace Vigant.Services
 
         public InterestService(ApplicationDbContext context)
         {
-            this._context = context;
+            this._context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public Task<List<Interest>> GetInterests() => this._context.Interests.ToListAsync();
 
         public Task<Interest> ShowInterest(string interestId) => this._context.Interests.SingleAsync(x => x.Id == interestId);
 
-        public void JoinInterest(string userId, string interestId)
+        public async Task JoinInterest(string userId, string interestId)
         {
             var user = this._context.Users.SingleAsync(x => x.Id == userId);
             this._context.Interests.Single(x => x.Id == interestId).Participants.Add(user.Result);
-            this._context.SaveChanges();
+            await this._context.SaveChangesAsync();
         }
 
-        public void LeaveInterest(string userId, string interestId)
+        public async Task LeaveInterest(string userId, string interestId)
         {
             var user = this._context.Users.SingleAsync(x => x.Id == userId);
             this._context.Interests.Single(x => x.Id == interestId).Participants.Remove(user.Result);
-            this._context.SaveChanges();
+            await this._context.SaveChangesAsync();
         }
     }
 }

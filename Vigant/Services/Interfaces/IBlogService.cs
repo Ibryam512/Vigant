@@ -10,8 +10,8 @@ namespace Vigant.Services.Interfaces
     {
         Task<List<Blog>> GetBlogs();
         Task<Blog> GetBlog(string blogId);
-        void AddBlog(Blog blog);
-        void AddComment(string blogId, Comment comment);
+        Task AddBlog(Blog blog);
+        Task AddComment(string blogId, Comment comment);
 
     }
 }

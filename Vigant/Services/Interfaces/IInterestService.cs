@@ -11,8 +11,8 @@ namespace Vigant.Services.Interfaces
     {
         Task<List<Interest>> GetInterests();
         Task<Interest> ShowInterest(string interestId);
-        void JoinInterest(string userId, string interestId);
-        void LeaveInterest(string userId, string interestId);
+        Task JoinInterest(string userId, string interestId);
+        Task LeaveInterest(string userId, string interestId);
 
     }
 }
