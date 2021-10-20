@@ -41,7 +41,7 @@ namespace Vigant.Controllers
         [HttpPost("Interest/Add")]
         public IActionResult Add()
         {
-            return Index();
+            return RedirectToAction("Index");
         }
     }
 }
