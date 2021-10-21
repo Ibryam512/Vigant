@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Vigant.Models;
 using Vigant.Services;
 using Vigant.ViewModels;
@@ -27,12 +24,12 @@ namespace Vigant.Controllers
 
         public IActionResult Blog()
         {
-            Blog blog = new Blog
+            BlogViewModel blog = new BlogViewModel
             {
                 Title = "Блог 1",
                 Description = "Това представлява тялото на самият блог",
-                Creator = new ApplicationUser { UserName = "Ibr" },
-                Comments = new List<Comment>()
+                Creator = new UserViewModel { UserName = "Ibr" },
+                Comments = new List<CommentViewModel>()
             }; 
             return View(blog);
         }

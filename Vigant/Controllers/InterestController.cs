@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Vigant.Models;
+using Vigant.ViewModels;
 
 namespace Vigant.Controllers
 {
@@ -16,17 +13,17 @@ namespace Vigant.Controllers
 
         public IActionResult Interest()
         {
-            var user1 = new ApplicationUser { UserName = "Ibr" };
-            var user2 = new ApplicationUser { UserName = "Ivan" };
-            var user3 = new ApplicationUser { UserName = "Katq" };
-            var user4 = new ApplicationUser { UserName = "Zuza" };
+            var user1 = new UserViewModel { UserName = "Ibr" };
+			var user2 = new UserViewModel { UserName = "Кулегътъ" };
+            var user3 = new UserViewModel { UserName = "Ivan" };
+            var user4 = new UserViewModel { UserName = "Katq" };
+            var user5 = new UserViewModel { UserName = "Zuza" };
 
-            var interest = new Interest
+            var interest = new InterestViewModel
             {
-                Id = "1",
                 Name = "Програмиране",
                 Description = "Това е група за хора, които се занимават с програмиране",
-                Participants = new List<ApplicationUser> { user1, user2, user3, user4 }
+                Participants = new List<UserViewModel> { user1, user2, user3, user4, user5 }
             };
             return View(interest);
 
