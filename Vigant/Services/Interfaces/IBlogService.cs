@@ -6,7 +6,7 @@ using Vigant.Models;
 
 namespace Vigant.Services.Interfaces
 {
-    interface IBlogService
+    public interface IBlogService
     {
         Task<List<Blog>> GetBlogs();
         Task<Blog> GetBlog(string blogId);
