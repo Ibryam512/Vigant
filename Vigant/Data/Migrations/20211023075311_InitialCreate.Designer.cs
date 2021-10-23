@@ -10,7 +10,7 @@ using Vigant.Data;
 namespace Vigant.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210919080816_InitialCreate")]
+    [Migration("20211023075311_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
