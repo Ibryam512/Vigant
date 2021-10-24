@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Vigant.Data;
+using Vigant.MappingConfiguration;
 using Vigant.Models;
 using Vigant.Services;
 using Vigant.Services.Interfaces;
@@ -42,6 +44,8 @@ namespace Vigant
 
             services.AddRazorPages();
 
+            MapperConfiguration mapperConfig = new MapperConfiguration(mc => mc.AddProfile(new ApplicationProfile()));
+            services.AddSingleton(mapperConfig.CreateMapper());
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IInterestService, InterestService>();

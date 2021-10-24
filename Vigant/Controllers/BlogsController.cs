@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Vigant.Models;
@@ -11,25 +12,21 @@ namespace Vigant.Controllers
     public class BlogsController : Controller
     {
         private IBlogService _service;
-        public BlogsController(IBlogService service)
+        private IMapper _mapper;
+        public BlogsController(IBlogService service, IMapper mapper)
         {
             this._service = service;
+            this._mapper = mapper;
         }
 
         public IActionResult Index()
         {
             var blogs = _service.GetBlogs().Result;
             var blogsView = new List<BlogViewModel>();
-            foreach (var blog in blogs)
+            foreach (var b in blogs)
             {
-                BlogViewModel view = new BlogViewModel
-                {
-                    Id = blog.Id,
-                    Title = blog.Title,
-                    Description = blog.Description,
-                    Accessbility = blog.Accessbility
-                };
-                blogsView.Add(view);
+                BlogViewModel blog = this._mapper.Map<BlogViewModel>(b);
+                blogsView.Add(blog);
             }
             return View(blogsView);
         }
@@ -38,24 +35,18 @@ namespace Vigant.Controllers
         {
             var blog = _service.GetBlog(id).Result;
             var creator = blog.Creator;
-            UserViewModel user = new UserViewModel
-            {
-                UserName = creator.UserName
-            };
+            UserViewModel user = this._mapper.Map<UserViewModel>(creator);
             var comments = new List<CommentViewModel>();
-            foreach (var comment in blog.Comments)
+            /*foreach (var comment in blog.Comments)
             {
-                UserViewModel u = new UserViewModel
-                {
-                    UserName = comment.User.UserName
-                };
+                UserViewModel u = this._mapper.Map<UserViewModel>(comment.User);
                 CommentViewModel c = new CommentViewModel 
                 {
                     Text = comment.Text,
                     User = u
                 };
                 comments.Add(c);
-            }
+            } */
             BlogViewModel blogView = new BlogViewModel
             {
                 Id = blog.Id,
@@ -76,14 +67,7 @@ namespace Vigant.Controllers
         [HttpPost("Blogs/Add")]
         public IActionResult AddBlog(BlogInputViewModel input)
         {
-            Blog blog = new Blog
-            {
-                Title = input.Title,
-                Description = input.Description,
-                Accessbility = input.Accessbility,
-                Comments = new List<Comment>(),
-                Creator = new ApplicationUser { UserName = "Ibr"} //change it
-            };
+            Blog blog = this._mapper.Map<Blog>(input);
             _service.AddBlog(blog);
             return RedirectToAction("Index");
         }
