@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using Vigant.Models;
 using Vigant.Services;
 using Vigant.Services.Interfaces;
@@ -21,7 +22,7 @@ namespace Vigant.Controllers
 
         public IActionResult Index()
         {
-            var blogs = _service.GetBlogs().Result;
+            var blogs = _service.GetBlogs().Result.OrderByDescending(x => x.UploadDate).ToList();
             var blogsView = new List<BlogViewModel>();
             foreach (var b in blogs)
             {
@@ -37,7 +38,7 @@ namespace Vigant.Controllers
             var creator = blog.Creator;
             UserViewModel user = this._mapper.Map<UserViewModel>(creator);
             var comments = new List<CommentViewModel>();
-            /*foreach (var comment in blog.Comments)
+            foreach (var comment in blog.Comments)
             {
                 UserViewModel u = this._mapper.Map<UserViewModel>(comment.User);
                 CommentViewModel c = new CommentViewModel 
@@ -46,7 +47,7 @@ namespace Vigant.Controllers
                     User = u
                 };
                 comments.Add(c);
-            } */
+            }
             BlogViewModel blogView = new BlogViewModel
             {
                 Id = blog.Id,

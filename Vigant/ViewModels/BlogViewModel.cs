@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Vigant.ViewModels
 {
@@ -10,5 +11,7 @@ namespace Vigant.ViewModels
         public string Accessbility { get; set; }
         public List<CommentViewModel> Comments { get; set; }
         public UserViewModel Creator { get; set; }
+
+        public DateTime UploadDate { get; set; }
     }
 }

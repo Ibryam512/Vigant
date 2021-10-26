@@ -234,6 +234,7 @@ namespace Vigant.Migrations
             modelBuilder.Entity("Vigant.Models.Blog", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Accessbility")
@@ -248,6 +249,9 @@ namespace Vigant.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("UploadDate")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CreatorId");
@@ -258,6 +262,7 @@ namespace Vigant.Migrations
             modelBuilder.Entity("Vigant.Models.Comment", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("BlogId")
@@ -281,6 +286,7 @@ namespace Vigant.Migrations
             modelBuilder.Entity("Vigant.Models.Interest", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
@@ -297,6 +303,7 @@ namespace Vigant.Migrations
             modelBuilder.Entity("Vigant.Models.Link", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ApplicationUserId")
