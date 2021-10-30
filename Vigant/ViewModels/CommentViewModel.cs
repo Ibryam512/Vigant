@@ -1,8 +1,10 @@
-﻿namespace Vigant.ViewModels
+﻿using Vigant.Models;
+
+namespace Vigant.ViewModels
 {
     public class CommentViewModel
     {
-        public UserViewModel User { get; set; }
+        public ApplicationUser User { get; set; }
         public string Text { get; set; }
     }
 }

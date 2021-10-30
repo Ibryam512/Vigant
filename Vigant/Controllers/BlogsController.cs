@@ -14,10 +14,12 @@ namespace Vigant.Controllers
     {
         private IBlogService _service;
         private IMapper _mapper;
-        public BlogsController(IBlogService service, IMapper mapper)
+        private UserManager<ApplicationUser> _userManager;
+        public BlogsController(IBlogService service, IMapper mapper, UserManager<ApplicationUser> userManager)
         {
             this._service = service;
             this._mapper = mapper;
+            this._userManager = userManager;
         }
 
         public IActionResult Index()
@@ -35,27 +37,15 @@ namespace Vigant.Controllers
         public IActionResult Blog(string id)
         {
             var blog = _service.GetBlog(id).Result;
-            var creator = blog.Creator;
-            UserViewModel user = this._mapper.Map<UserViewModel>(creator);
             var comments = new List<CommentViewModel>();
+            blog.Comments ??= new List<Comment>();
             foreach (var comment in blog.Comments)
             {
-                UserViewModel u = this._mapper.Map<UserViewModel>(comment.User);
-                CommentViewModel c = new CommentViewModel 
-                {
-                    Text = comment.Text,
-                    User = u
-                };
+                CommentViewModel c = _mapper.Map<CommentViewModel>(comment);
                 comments.Add(c);
             }
-            BlogViewModel blogView = new BlogViewModel
-            {
-                Id = blog.Id,
-                Title = blog.Title,
-                Description = blog.Description,
-                Creator = user,
-                Comments = comments
-            }; 
+            BlogViewModel blogView = _mapper.Map<BlogViewModel>(blog);
+            blogView.Comments = comments;
             return View(blogView);
         }
 
@@ -69,6 +59,7 @@ namespace Vigant.Controllers
         public IActionResult AddBlog(BlogInputViewModel input)
         {
             Blog blog = this._mapper.Map<Blog>(input);
+            blog.Creator = this._userManager.GetUserAsync(User).Result;
             _service.AddBlog(blog);
             return RedirectToAction("Index");
         }
