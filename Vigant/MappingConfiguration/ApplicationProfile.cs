@@ -22,7 +22,8 @@ namespace Vigant.MappingConfiguration
                 .ForMember(m => m.Comments, opt => opt.MapFrom(src => new List<Comment>()))
                 .ForMember(m => m.UploadDate, opt => opt.MapFrom(src => DateTime.Now));
             CreateMap<CommentInputViewModel, Comment>();
-            CreateMap<InterestInputViewModel, Interest>().ForMember(dest => dest.Participants, opt => opt.MapFrom(src => new List<ApplicationUser>()));
+            CreateMap<InterestInputViewModel, Interest>()
+                .ForMember(dest => dest.Participants, opt => opt.MapFrom(src => new List<ApplicationUser>()));
             CreateMap<LinkInputViewModel, Link>();
         }
     }

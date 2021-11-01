@@ -1,32 +1,44 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using Vigant.Models;
+using Vigant.Services.Interfaces;
 using Vigant.ViewModels;
 
 namespace Vigant.Controllers
 {
     public class InterestController : Controller
     {
-        public IActionResult Index()
+        private IInterestService _service;
+        private IMapper _mapper;
+        private UserManager<ApplicationUser> _userManager;
+
+        public InterestController(IInterestService service, IMapper mapper, UserManager<ApplicationUser> userManager)
         {
-            return View();
+            this._service = service;
+            this._mapper = mapper;
+            this._userManager = userManager;
         }
 
-        public IActionResult Interest()
+        public IActionResult Index()
         {
-            var user1 = new UserViewModel { UserName = "Ibr" };
-			var user2 = new UserViewModel { UserName = "Кулегътъ" };
-            var user3 = new UserViewModel { UserName = "Ivan" };
-            var user4 = new UserViewModel { UserName = "Katq" };
-            var user5 = new UserViewModel { UserName = "Zuza" };
-
-            var interest = new InterestViewModel
+            var interests = this._service.GetInterests().Result;
+            var interestsView = new List<InterestViewModel>();
+            foreach (var i in interests)
             {
-                Name = "Програмиране",
-                Description = "Това е група за хора, които се занимават с програмиране",
-                Participants = new List<UserViewModel> { user1, user2, user3, user4, user5 }
-            };
-            return View(interest);
+                var interest = _mapper.Map<InterestViewModel>(i);
+                interestsView.Add(interest);
+            }
+            return View(interestsView);
+        }
 
+        [Route("Interest/{id}")]
+        public IActionResult Interest(string id)
+        {
+            var interest = this._service.ShowInterest(id).Result;
+            var interestView = _mapper.Map<InterestViewModel>(interest);
+            return View(interestView);
         }
 
         [Route("Interest/Add")]
@@ -36,9 +48,19 @@ namespace Vigant.Controllers
         }
 
         [HttpPost("Interest/Add")]
-        public IActionResult Add()
+        public IActionResult Add(InterestInputViewModel input)
         {
+            var interest = this._mapper.Map<Interest>(input);
+            this._service.CreateInterest(interest);
             return RedirectToAction("Index");
+        }
+
+        [HttpPost("Interest/Join/{id}")]
+        public IActionResult Join(string id)
+        {
+            var user = this._userManager.GetUserAsync(User).Result;
+            this._service.JoinInterest(user, id);
+            return RedirectToAction(id);
         }
     }
 }

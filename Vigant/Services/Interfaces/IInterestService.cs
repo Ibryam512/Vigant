@@ -7,12 +7,13 @@ using Vigant.Models;
 
 namespace Vigant.Services.Interfaces
 {
-    interface IInterestService
+    public interface IInterestService
     {
         Task<List<Interest>> GetInterests();
         Task<Interest> ShowInterest(string interestId);
-        Task JoinInterest(string userId, string interestId);
-        Task LeaveInterest(string userId, string interestId);
+        Task JoinInterest(ApplicationUser user, string interestId);
+        Task LeaveInterest(ApplicationUser user, string interestId);
+        Task CreateInterest(Interest interest);
 
     }
 }

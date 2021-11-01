@@ -21,19 +21,23 @@ namespace Vigant.Services
 
         public Task<List<Interest>> GetInterests() => this._context.Interests.ToListAsync();
 
-        public Task<Interest> ShowInterest(string interestId) => this._context.Interests.SingleAsync(x => x.Id == interestId);
+        public Task<Interest> ShowInterest(string interestId) => this._context.Interests.SingleOrDefaultAsync(x => x.Id == interestId);
 
-        public async Task JoinInterest(string userId, string interestId)
+        public async Task JoinInterest(ApplicationUser user, string interestId)
         {
-            var user = this._context.Users.SingleAsync(x => x.Id == userId);
-            this._context.Interests.Single(x => x.Id == interestId).Participants.Add(user.Result);
+            this._context.Interests.SingleOrDefault(x => x.Id == interestId).Participants.Add(user);
             await this._context.SaveChangesAsync();
         }
 
-        public async Task LeaveInterest(string userId, string interestId)
+        public async Task LeaveInterest(ApplicationUser user, string interestId)
         {
-            var user = this._context.Users.SingleAsync(x => x.Id == userId);
-            this._context.Interests.Single(x => x.Id == interestId).Participants.Remove(user.Result);
+            this._context.Interests.SingleOrDefault(x => x.Id == interestId).Participants.Remove(user);
+            await this._context.SaveChangesAsync();
+        }
+
+        public async Task CreateInterest(Interest interest)
+        {
+            this._context.Interests.Add(interest);
             await this._context.SaveChangesAsync();
         }
     }

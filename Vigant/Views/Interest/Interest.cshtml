@@ -1,23 +1,22 @@
 ﻿@model Vigant.ViewModels.InterestViewModel
-
 @{
     ViewData["Title"] = "Интерес";
 }
 
-<h1>Interest</h1>
+<h1>Интереси</h1>
 
 <div>
-    <h4>Програмиране</h4>
+    <h4>@Model.Name</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            Име
+            @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class="col-sm-2">
-            Описание
+            @Html.DisplayNameFor(model => model.Description)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Description)
@@ -36,12 +35,17 @@
             <dd class="col-sm-10">
                 @for (int i = 0; i < Model.Participants.Count; i++)
                 {
-                    <a href="/">@Html.DisplayFor(model => model.Participants[i].UserName)</a><br>
+                    <a href="Users/@Model.Participants[i].Id">@Html.DisplayFor(model => model.Participants[i].UserName)</a><br>
                 }
             </dd>
         }
         </dl>
 </div>
+<form asp-action="Join" asp-route-id="@Model.Id">
+    <div class="form-group">
+        <input type="submit" value="Присъедини се" class="btn btn-primary" />
+    </div>
+</form>
 <div>
     <a asp-action="Index">Назад</a>
 </div>
