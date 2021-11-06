@@ -1,0 +1,48 @@
+﻿@model Vigant.ViewModels.UserViewModel
+
+@{
+    ViewData["Title"] = "MyProfile";
+}
+
+<h1>MyProfile</h1>
+
+<div>
+    <h4>UserViewModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.JoinDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.JoinDate)
+        </dd>
+        <dt class="col-sm-2">
+            Настройки
+        </dt>
+        <dd class="col-sm-10">
+            <a asp-area="Identity" asp-page="/Account/Manage/Index">Настройки на профила</a>
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

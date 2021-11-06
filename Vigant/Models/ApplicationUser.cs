@@ -11,8 +11,6 @@ namespace Vigant.Models
         public string LastName { get; set; }
         public List<ApplicationUser> Friends { get; set; }
         public List<Link> Links { get; set; }
-        [NotMapped]
-        public List<string> Warnings { get; set; }
         public ApplicationRole Role { get; set; }
         public DateTime JoinDate { get; set; }
     }

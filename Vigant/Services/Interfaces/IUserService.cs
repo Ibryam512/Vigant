@@ -9,7 +9,7 @@ using Vigant.Models;
 
 namespace Vigant.Services.Interfaces
 {
-    interface IUserService
+    public interface IUserService
     {
         Task<ApplicationUser> FindUser(string userName);
         Task<List<ApplicationUser>> GetUsers();

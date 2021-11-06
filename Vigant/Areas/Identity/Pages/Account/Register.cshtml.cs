@@ -87,7 +87,7 @@ namespace Vigant.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { FirstName = Input.FirstName, LastName = Input.LastName, UserName = Input.UserName, Email = Input.Email };
+                var user = new ApplicationUser { FirstName = Input.FirstName, LastName = Input.LastName, UserName = Input.UserName, Email = Input.Email, JoinDate = DateTime.Now };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
