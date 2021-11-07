@@ -20,7 +20,7 @@ namespace Vigant.Services
 
         public Task<List<Blog>> GetBlogs() => this._context.Blogs.ToListAsync();
 
-        public Task<Blog> GetBlog(string blogId) => this._context.Blogs.SingleAsync(x => x.Id == blogId);
+        public Task<Blog> GetBlog(string blogId) => this._context.Blogs.SingleOrDefaultAsync(x => x.Id == blogId);
 
         public async Task AddBlog(Blog blog)
         {
@@ -31,6 +31,7 @@ namespace Vigant.Services
         public async Task AddComment(string blogId, Comment comment)
         {
             this._context.Blogs.Single(x => x.Id == blogId).Comments.Add(comment);
+            this._context.Comments.Add(comment);
             await this._context.SaveChangesAsync();
         }
     }

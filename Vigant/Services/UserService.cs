@@ -19,12 +19,12 @@ namespace Vigant.Services
             this._context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public Task<ApplicationUser> FindUser(string userName) => this._context.Users.SingleAsync(x => x.UserName == userName);
+        public Task<ApplicationUser> FindUser(string userName) => this._context.Users.SingleOrDefaultAsync(x => x.UserName == userName);
 
         public Task<List<ApplicationUser>> GetUsers() => this._context.Users.ToListAsync();
 
-        public List<ApplicationUser> ShowFriends(string userId) => GetUsers().Result.Single(x => x.Id == userId).Friends ?? new List<ApplicationUser>();
+        public List<ApplicationUser> ShowFriends(string userId) => GetUsers().Result.SingleOrDefault(x => x.Id == userId).Friends ?? new List<ApplicationUser>();
 
-        public List<ApplicationUser> ShowParticipants(string interestId) => this._context.Interests.Single(x => x.Id == interestId).Participants ?? new List<ApplicationUser>();
+        public List<ApplicationUser> ShowParticipants(string interestId) => this._context.Interests.SingleOrDefault(x => x.Id == interestId).Participants ?? new List<ApplicationUser>(); //TODO: Move the method in the InterestService class
     }
 }
