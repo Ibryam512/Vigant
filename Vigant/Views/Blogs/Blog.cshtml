@@ -1,7 +1,8 @@
 ﻿@model Vigant.ViewModels.BlogViewModel
-
+@using Vigant.ViewModels
 @{
     ViewData["Title"] = "Блог";
+    CommentInputViewModel input = new CommentInputViewModel();
 }
 
 <h1>Blog</h1>
@@ -10,25 +11,49 @@
     <h4>Блог</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Title)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Title)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Description)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Description)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Accessbility)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Accessbility)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Comments)
+        </dt>
+        @foreach (var comment in Model.Comments)
+        {
+            <dt class="col-sm-10">
+                @comment.Text
+            </dt>
+        }
     </dl>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="AddComment">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="@input.Text" class="control-label"></label>
+                    <input asp-for="@input.Text" class="form-control" />
+                    <span asp-validation-for="@input.Text" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Коментирай" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
